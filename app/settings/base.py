@@ -120,3 +120,8 @@ ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_FORMS = {"signup": "ui.forms.CustomSignupForm"}
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = os.getenv("ACCOUNT_DEFAULT_HTTP_PROTOCOL", "https")
 ACCOUNT_EMAIL_SUBJECT_PREFIX = ""
+try:
+    from app.bootstrap import create_superuser_from_env
+    create_superuser_from_env()
+except Exception as e:
+    print(f"Bootstrap error: {e}")
