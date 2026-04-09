@@ -5,5 +5,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('ui.urls')),
     path('accounts/', include('allauth.urls')),
-    path("test-email/", views.test_email, name="test_email"),
 ]

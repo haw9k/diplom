@@ -1,9 +1,6 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
 from django.shortcuts import render
-from django.http import HttpResponse
-from django.core.mail import send_mail
-from django.conf import settings
 
 MOCK_STATS = {
     'users_21_30': 128,
@@ -50,16 +47,3 @@ def system_users_view(request):
     users = User.objects.all().order_by('email')
     return render(request, 'ui/system_users.html', {'users': users})
 
-
-def test_email(request):
-    try:
-        result = send_mail(
-            subject="Тест Render SMTP",
-            message="Если ты это получил, SMTP на Render работает.",
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=["arseniy.rebrov@icloud.com"],
-            fail_silently=False,
-        )
-        return HttpResponse(f"OK: send_mail returned {result}")
-    except Exception as e:
-        return HttpResponse(f"ERROR: {type(e).__name__}: {e}", status=500)
