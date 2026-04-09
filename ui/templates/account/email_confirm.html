@@ -1,0 +1,51 @@
+{% extends "ui/base.html" %}
+{% load i18n account %}
+
+{% block title %}Подтверждение email{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center align-items-center" style="min-height: 70vh;">
+        <div class="col-md-8 col-lg-6 col-xl-5">
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+                <div class="card-header text-center text-white py-4"
+                     style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <h2 class="mb-2 fw-bold">
+                        <i class="fas fa-circle-check me-2"></i>
+                        Подтверждение email
+                    </h2>
+                    <p class="mb-0 opacity-75">Подтвердите адрес электронной почты</p>
+                </div>
+
+                <div class="card-body p-4 p-md-5">
+                    {% if confirmation %}
+                        {% user_display confirmation.email_address.user as user_display %}
+                        <p class="text-muted mb-4 text-center">
+                            Подтвердить адрес <strong>{{ confirmation.email_address.email }}</strong>?
+                        </p>
+
+                        <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
+                            {% csrf_token %}
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg rounded-3">
+                                    Подтвердить email
+                                </button>
+                            </div>
+                        </form>
+                    {% else %}
+                        <div class="alert alert-warning rounded-3">
+                            Ссылка подтверждения недействительна или уже была использована.
+                        </div>
+
+                        <div class="d-grid mt-3">
+                            <a href="{% url 'account_login' %}" class="btn btn-outline-secondary rounded-3">
+                                Вернуться ко входу
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
