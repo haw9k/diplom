@@ -1,0 +1,10 @@
+{% extends "ui/base.html" %}
+{% block title %}Достижения{% endblock %}
+{% block content %}
+<h1 class="mb-4">🏆 Достижения</h1>
+<div class="card"><div class="card-body">
+<table class="table table-striped">
+<thead><tr><th>Студент</th><th>Тип</th><th>Событие</th><th>Результат</th></tr></thead>
+<tbody>{% for item in achievements %}<tr><td>{{ item.student }}</td><td>{{ item.type }}</td><td>{{ item.title }}</td><td>{{ item.place }}</td></tr>{% endfor %}</tbody>
+</table></div></div>
+{% endblock %}

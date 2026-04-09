@@ -1,0 +1,144 @@
+<!-- ui/templates/ui/stats.html -->
+{% extends "ui/base.html" %}
+{% block title %}Статистика{% endblock %}
+{% block content %}
+<h1 class="mb-4">📊 Статистика выпускников</h1>
+
+<!-- Основные метрики -->
+<div class="row mb-4">
+  <div class="col-md-4">
+    <div class="card text-center border-primary h-100">
+      <div class="card-body">
+        <i class="fas fa-users fa-2x text-primary mb-2"></i>
+        <h5 class="card-title">21-30 лет</h5>
+        <h3 class="text-primary">{{ users_21_30 }}</h3>
+        <small class="text-muted">выпускников</small>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card text-center border-info h-100">
+      <div class="card-body">
+        <i class="fas fa-briefcase fa-2x text-info mb-2"></i>
+        <h5 class="card-title">Указали работу</h5>
+        <h3 class="text-info">{{ users_with_job }}</h3>
+        <small class="text-muted">выпускников</small>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card text-center border-warning h-100">
+      <div class="card-body">
+        <i class="fas fa-user-check fa-2x text-warning mb-2"></i>
+        <h5 class="card-title">Возраст + работа</h5>
+        <h3 class="text-warning">{{ users_with_age_and_job }}</h3>
+        <small class="text-muted">выпускников</small>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- IT и партнёры -->
+<div class="row mb-4">
+  <div class="col-md-6">
+    <div class="card border-success h-100">
+      <div class="card-header bg-success text-white">
+        <h5 class="card-title mb-0">
+          <i class="fas fa-laptop-code me-2"></i>Работают в IT
+        </h5>
+      </div>
+      <div class="card-body text-center">
+        <h2 class="text-success">{{ users_in_it }}</h2>
+        <p class="text-muted">выпускников в IT-сфере</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card border-primary h-100">
+      <div class="card-header bg-primary text-white">
+        <h5 class="card-title mb-0">
+          <i class="fas fa-handshake me-2"></i>Компании-партнёры
+        </h5>
+      </div>
+      <div class="card-body text-center">
+        <h2 class="text-primary">{{ users_in_partners }}</h2>
+        <p class="text-muted">выпускников в партнёрских компаниях</p>
+      </div>
+    </div>
+  </div>
+</div>
+<h2 class="mb-4">🏆 Топ-20 компаний-партнёров</h2>
+<div class="card">
+  <div class="card-header bg-warning text-dark">
+    <h5 class="card-title mb-0">
+      <i class="fas fa-trophy me-2"></i>Рейтинг компаний по количеству выпускников
+    </h5>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead class="table-warning">
+          <tr>
+            <th width="10%">#</th>
+            <th>Компания</th>
+            <th width="20%" class="text-center">Выпускников</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for company, count in top_companies %}
+          <tr>
+            <td class="text-muted">{{ forloop.counter }}</td>
+            <td>
+              <i class="fas fa-building text-primary me-2"></i>
+              <strong>{{ company }}</strong>
+            </td>
+            <td class="text-center">
+              <span class="badge bg-success fs-6">{{ count }}</span>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<h2>🌍 География трудоустройства</h2>
+{% if geo %}
+  <div class="row">
+    {% for company, cities in geo.items %}
+      <div class="col-lg-6 col-xl-4 mb-4">
+        <div class="card h-100 border-primary">
+          <div class="card-header bg-primary text-white">
+            <h5 class="card-title mb-0">
+              <i class="fas fa-building me-2"></i>{{ company }}
+            </h5>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              {% for city, count in cities %}
+                <div class="col-12 mb-2">
+                  <div class="d-flex justify-content-between align-items-center p-2 rounded" 
+                       style="background-color: {% cycle '#f8f9fa' '#e9ecef' as bgcolor %}">
+                    <span class="fw-bold">
+                      <i class="fas fa-map-marker-alt text-danger me-2"></i>{{ city }}
+                    </span>
+                    <span class="badge bg-success">{{ count }} выпускник{{ count|pluralize:"ов,а,ов" }}</span>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="card-footer text-muted">
+            <small>Всего городов: {{ cities|length }}</small>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="alert alert-info">
+    <i class="fas fa-info-circle me-2"></i>
+    Данные о географии трудоустройства отсутствуют.
+  </div>
+{% endif %}
+{% endblock %}

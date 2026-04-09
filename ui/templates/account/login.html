@@ -1,0 +1,228 @@
+{% extends 'ui/base.html' %}
+
+{% block title %}Вход в систему{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow-lg border-0">
+                <div class="card-header text-center bg-gradient-primary text-white py-4">
+                    <h3 class="mb-0 fw-bold">
+                        <i class="fas fa-sign-in-alt me-2"></i>Вход в систему
+                    </h3>
+                    <p class="mb-0 mt-2 opacity-75">Добро пожаловать обратно!</p>
+                </div>
+                <div class="card-body p-4">
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        
+                        <form method="post">
+                            {% csrf_token %}
+                            
+                            {% if form.errors %}
+                                <div class="alert alert-danger">
+                                    <strong>Ошибка входа:</strong>
+                                    {% for field, errors in form.errors.items %}
+                                        {% for error in errors %}
+                                            <div>{{ error }}</div>
+                                        {% endfor %}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            
+                            <div class="mb-3">
+                                <label for="{{ form.login.id_for_label }}" class="form-label">
+                                    <i class="fas fa-envelope me-2"></i>Email адрес
+                                </label>
+                                {{ form.login }}
+                                {% if form.login.errors %}
+                                    <div class="text-danger small mt-1">{{ form.login.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="{{ form.password.id_for_label }}" class="form-label">
+                                    <i class="fas fa-lock me-2"></i>Пароль
+                                </label>
+                                {{ form.password }}
+                                {% if form.password.errors %}
+                                    <div class="text-danger small mt-1">{{ form.password.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="mb-3 form-check">
+                                {{ form.remember }}
+                                <label class="form-check-label" for="{{ form.remember.id_for_label }}">
+                                    Запомнить меня
+                                </label>
+                            </div>
+                            
+                                                    <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg fw-bold">
+                                <i class="fas fa-sign-in-alt me-2"></i>Войти в систему
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <hr class="my-4">
+                    
+                    <div class="text-center">
+                        <p class="mb-2">
+                            <a href="{% url 'account_reset_password' %}" class="text-decoration-none" target="_blank">
+                                <i class="fas fa-key me-1"></i>Забыли пароль?
+                                <i class="fas fa-external-link-alt ms-1"></i>
+                            </a>
+                        </p>
+                        <p class="mb-0">
+                            Нет аккаунта? 
+                            <a href="{% url 'account_signup' %}" class="text-decoration-none" target="_blank">
+                                <i class="fas fa-user-plus me-1"></i>Зарегистрироваться
+                                <i class="fas fa-external-link-alt ms-1"></i>
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<style>
+/* Градиент для заголовка */
+.bg-gradient-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* Стили для полей ввода */
+.form-control {
+    border-radius: 0.75rem;
+    border: 2px solid #e9ecef;
+    padding: 0.875rem 1.25rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background-color: #f8f9fa;
+}
+
+.form-control:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    background-color: #fff;
+    transform: translateY(-1px);
+}
+
+/* Стили для кнопки */
+.btn-lg {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    border-radius: 0.75rem;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+}
+
+.btn-lg:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+/* Стили для карточек */
+.card {
+    border: none;
+    border-radius: 1.5rem;
+    overflow: hidden;
+}
+
+.card-header {
+    border-radius: 1.5rem 1.5rem 0 0 !important;
+    border-bottom: none;
+}
+
+/* Стили для чекбокса */
+.form-check-input {
+    border-radius: 0.375rem;
+    border: 2px solid #dee2e6;
+    transition: all 0.3s ease;
+}
+
+.form-check-input:checked {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-color: #667eea;
+}
+
+/* Стили для алертов */
+.alert {
+    border-radius: 0.75rem;
+    border: none;
+    border-left: 4px solid;
+}
+
+.alert-danger {
+    border-left-color: #dc3545;
+    background-color: #f8d7da;
+}
+
+/* Стили для ссылок */
+a {
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    color: #667eea !important;
+    transform: translateX(2px);
+}
+
+/* Анимации */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .col-md-6 {
+        margin: 0 1rem;
+    }
+    
+    .card {
+        margin: 0 0.5rem;
+    }
+    
+    .btn-lg {
+        padding: 0.875rem 1.5rem;
+    }
+}
+
+/* Дополнительные эффекты */
+.form-label {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 0.5rem;
+}
+
+.card-body {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+}
+
+.shadow-lg {
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+}
+</style>
+{% endblock %} 
