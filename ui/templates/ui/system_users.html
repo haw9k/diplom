@@ -2,9 +2,32 @@
 {% block title %}Системные пользователи{% endblock %}
 {% block content %}
 <h1 class="mb-4">⚙️ Системные пользователи</h1>
-<div class="card"><div class="card-body">
-<table class="table table-sm">
-<thead><tr><th>Email</th><th>Имя</th><th>Активен</th><th>Админ</th></tr></thead>
-<tbody>{% for user in users %}<tr><td>{{ user.email }}</td><td>{{ user.get_full_name|default:user.username }}</td><td>{{ user.is_active }}</td><td>{{ user.is_superuser }}</td></tr>{% empty %}<tr><td colspan="4">Пользователей пока нет.</td></tr>{% endfor %}</tbody>
-</table></div></div>
+<div class="card">
+    <div class="card-body">
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Имя</th>
+                    <th>Активен</th>
+                    <th>Админ</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for system_user in users %}
+                <tr>
+                    <td>{{ system_user.email }}</td>
+                    <td>{{ system_user.get_full_name|default:system_user.username }}</td>
+                    <td>{{ system_user.is_active }}</td>
+                    <td>{{ system_user.is_superuser }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4">Пользователей пока нет.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock %}

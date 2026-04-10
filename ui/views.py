@@ -1,6 +1,8 @@
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib.auth.models import User
 from django.shortcuts import render
+
+User = get_user_model()
 
 MOCK_STATS = {
     'users_21_30': 128,
@@ -44,6 +46,5 @@ def users_view(request):
 
 @user_passes_test(is_admin)
 def system_users_view(request):
-    users = User.objects.all().order_by('email')
+    users = User.objects.all().order_by('id')
     return render(request, 'ui/system_users.html', {'users': users})
-
